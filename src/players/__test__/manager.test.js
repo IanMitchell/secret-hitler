@@ -1,18 +1,6 @@
 import PlayerManager from '../';
+import { playerNames } from '../../__test__/player-names';
 import { Role, Status } from '../../constants';
-
-const playerNames = [
-  'Ian',
-  'Elmer',
-  'Kyle',
-  'Lia',
-  'Bonnie',
-  'Cale',
-  'Nate',
-  'Anthony',
-  'Toby',
-  'Antonio',
-];
 
 function addPlayers() {
   playerNames.forEach(name => PlayerManager.addPlayer(name));
