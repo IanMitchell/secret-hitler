@@ -6,8 +6,12 @@ describe('Deck', () => {
     const deck = new Deck();
     expect(deck.cardsLeft()).toBe(17);
 
-    const liberalCards = deck.cards.filter(card => card.type === CardType.LIBERAL);
-    const fascistCards = deck.cards.filter(card => card.type === CardType.FASCIST);
+    const liberalCards = deck.cards.filter(
+      card => card.type === CardType.LIBERAL,
+    );
+    const fascistCards = deck.cards.filter(
+      card => card.type === CardType.FASCIST,
+    );
 
     expect(liberalCards.length).toBe(DeckSize.LIBERAL_CARDS);
     expect(fascistCards.length).toBe(DeckSize.FASCIST_CARDS);

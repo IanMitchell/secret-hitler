@@ -40,7 +40,9 @@ describe('PlayerManager', () => {
 
   test('should correctly assign roles', () => {
     addPlayers();
-    PlayerManager.players.forEach(player => expect(player.role).toBe(Role.PENDING));
+    PlayerManager.players.forEach(player =>
+      expect(player.role).toBe(Role.PENDING),
+    );
     PlayerManager.assignRoles();
 
     const roleCount = {
@@ -117,7 +119,13 @@ describe('PlayerManager', () => {
 
   test('should track valid chancellors', () => {
     addPlayers();
-    const [president, chancellor, dead, newPresident, ...list] = PlayerManager.players;
+    const [
+      president,
+      chancellor,
+      dead,
+      newPresident,
+      ...list
+    ] = PlayerManager.players;
     dead.setStatusDead();
     newPresident.setStatusPresident();
     PlayerManager.lastGovernment = { president, chancellor };
@@ -129,7 +137,13 @@ describe('PlayerManager', () => {
     addPlayers();
     PlayerManager.players.length = 5;
 
-    const [president, dead, chancellor, newPresident, valid] = PlayerManager.players;
+    const [
+      president,
+      dead,
+      chancellor,
+      newPresident,
+      valid,
+    ] = PlayerManager.players;
     newPresident.setStatusPresident();
     dead.setStatusDead();
     PlayerManager.lastGovernment = { president, chancellor };
@@ -144,7 +158,13 @@ describe('PlayerManager', () => {
   test('should correctly validate potential chancellor for large games', () => {
     addPlayers();
 
-    const [president, dead, chancellor, newPresident, valid] = PlayerManager.players;
+    const [
+      president,
+      dead,
+      chancellor,
+      newPresident,
+      valid,
+    ] = PlayerManager.players;
     newPresident.setStatusPresident();
     dead.setStatusDead();
     PlayerManager.lastGovernment = { president, chancellor };
@@ -176,7 +196,10 @@ describe('PlayerManager', () => {
 
     PlayerManager.lastGovernment = { president, chancellor };
     PlayerManager.setLastSuccessfulGovernment(true);
-    expect(PlayerManager.lastGovernment).toEqual({ president: null, chancellor: null });
+    expect(PlayerManager.lastGovernment).toEqual({
+      president: null,
+      chancellor: null,
+    });
   });
 
   test('should investigate player', () => {
@@ -200,15 +223,23 @@ describe('PlayerManager', () => {
   test('should return liberals', () => {
     addPlayers();
     PlayerManager.assignRoles();
-    PlayerManager.getLiberals().forEach(player => expect(player.role).toBe(Role.LIBERAL));
-    expect(PlayerManager.getLiberals()).toHaveLength(PlayerManager.getNumberOfLiberals());
+    PlayerManager.getLiberals().forEach(player =>
+      expect(player.role).toBe(Role.LIBERAL),
+    );
+    expect(PlayerManager.getLiberals()).toHaveLength(
+      PlayerManager.getNumberOfLiberals(),
+    );
   });
 
   test('should return fascists', () => {
     addPlayers();
     PlayerManager.assignRoles();
-    PlayerManager.getFascists().forEach(player => expect(player.role).toBe(Role.FASCIST));
-    expect(PlayerManager.getFascists()).toHaveLength(PlayerManager.getNumberOfFascists());
+    PlayerManager.getFascists().forEach(player =>
+      expect(player.role).toBe(Role.FASCIST),
+    );
+    expect(PlayerManager.getFascists()).toHaveLength(
+      PlayerManager.getNumberOfFascists(),
+    );
   });
 
   test('should return player assigned hitler', () => {
@@ -246,7 +277,13 @@ describe('PlayerManager', () => {
     PlayerManager.assignTurnOrder();
     PlayerManager.getNextPresident();
 
-    const [, investigate, otherInvestigated, dead, ...players] = PlayerManager.players;
+    const [
+      ,
+      investigate,
+      otherInvestigated,
+      dead,
+      ...players
+    ] = PlayerManager.players;
     investigate.setInvestigated();
     otherInvestigated.setInvestigated();
     dead.setStatusDead();

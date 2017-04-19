@@ -1,5 +1,5 @@
 // eslint-disable-next-line func-names, no-extend-native
-Array.prototype.shuffle = function () {
+Array.prototype.shuffle = function() {
   let counter = this.length || 0;
 
   while (counter > 0) {

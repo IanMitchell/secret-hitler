@@ -27,46 +27,54 @@ describe('ActionManager', () => {
     PlayerManager.getExecutionTargets = executionTargets;
 
     ActionManager.promptAction();
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.EXECUTIVE_ACTION,
-      target: Target.PRESIDENT,
-      data: {
-        type: Action.INVESTIGATE,
-        targets: [1, 2, 3],
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.EXECUTIVE_ACTION,
+        target: Target.PRESIDENT,
+        data: {
+          type: Action.INVESTIGATE,
+          targets: [1, 2, 3],
+        },
       },
-    }]);
+    ]);
 
     mock.mockReturnValueOnce(Action.SPECIAL_ELECTION);
     ActionManager.promptAction();
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.EXECUTIVE_ACTION,
-      target: Target.PRESIDENT,
-      data: {
-        type: Action.SPECIAL_ELECTION,
-        targets: [4, 5, 6],
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.EXECUTIVE_ACTION,
+        target: Target.PRESIDENT,
+        data: {
+          type: Action.SPECIAL_ELECTION,
+          targets: [4, 5, 6],
+        },
       },
-    }]);
+    ]);
 
     mock.mockReturnValueOnce(Action.KILL);
     ActionManager.promptAction();
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.EXECUTIVE_ACTION,
-      target: Target.PRESIDENT,
-      data: {
-        type: Action.KILL,
-        targets: [7, 8, 9],
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.EXECUTIVE_ACTION,
+        target: Target.PRESIDENT,
+        data: {
+          type: Action.KILL,
+          targets: [7, 8, 9],
+        },
       },
-    }]);
+    ]);
 
     mock.mockReturnValueOnce(Action.PEEK);
     ActionManager.promptAction();
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.EXECUTIVE_ACTION,
-      target: Target.PRESIDENT,
-      data: {
-        type: Action.PEEK,
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.EXECUTIVE_ACTION,
+        target: Target.PRESIDENT,
+        data: {
+          type: Action.PEEK,
+        },
       },
-    }]);
+    ]);
   });
 
   test('should show next hand to president', () => {
@@ -75,13 +83,15 @@ describe('ActionManager', () => {
     CardManager.peekCards = mock;
     ActionManager.peek();
 
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.PEEK,
-      target: Target.PRESIDENT,
-      data: {
-        hand: [1, 2, 3],
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.PEEK,
+        target: Target.PRESIDENT,
+        data: {
+          hand: [1, 2, 3],
+        },
       },
-    }]);
+    ]);
   });
 
   test('should not modify deck with peek', () => {
@@ -133,13 +143,15 @@ describe('ActionManager', () => {
     player.setLiberal();
     ActionManager.investigate(player);
 
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.INVESTIGATE,
-      target: Target.PRESIDENT,
-      data: {
-        player,
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.INVESTIGATE,
+        target: Target.PRESIDENT,
+        data: {
+          player,
+        },
       },
-    }]);
+    ]);
   });
 
   test('should mark player as investigated', () => {
@@ -160,7 +172,9 @@ describe('ActionManager', () => {
     mock.mockReturnValueOnce([]);
     PlayerManager.getSpecialElectionCandidates = mock;
 
-    expect(() => ActionManager.specialElection(player)).toThrow(InvalidInputError);
+    expect(() => ActionManager.specialElection(player)).toThrow(
+      InvalidInputError,
+    );
   });
 
   test('should alert people to Special Election appointment', () => {
@@ -172,13 +186,15 @@ describe('ActionManager', () => {
 
     ActionManager.specialElection(player);
 
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.SPECIAL_ELECTION,
-      target: Target.ALL,
-      data: {
-        president: player,
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.SPECIAL_ELECTION,
+        target: Target.ALL,
+        data: {
+          president: player,
+        },
       },
-    }]);
+    ]);
   });
 
   test('should not allow President to double tap a player', () => {
@@ -199,12 +215,14 @@ describe('ActionManager', () => {
     const player = new Player('Ian');
     ActionManager.kill(player);
 
-    expect(EventManager.getNewEvents()).toEqual([{
-      type: Event.KILL,
-      target: Target.ALL,
-      data: {
-        target: player,
+    expect(EventManager.getNewEvents()).toEqual([
+      {
+        type: Event.KILL,
+        target: Target.ALL,
+        data: {
+          target: player,
+        },
       },
-    }]);
+    ]);
   });
 });

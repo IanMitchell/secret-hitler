@@ -33,7 +33,9 @@ export default class {
       hitler: PlayerManager.getHitler().name,
     });
 
-    if (PlayerManager.getNumberOfPlayers() <= Player.INFORMED_HITLER_PLAYER_LIMIT) {
+    if (
+      PlayerManager.getNumberOfPlayers() <= Player.INFORMED_HITLER_PLAYER_LIMIT
+    ) {
       EventManager.addEvent(Event.ROLE_INFORMATION, Target.HITLER, {
         liberals: PlayerManager.getLiberals().map(player => player.name),
         fascists: PlayerManager.getFascists().map(player => player.name),
@@ -88,11 +90,11 @@ export default class {
 
     if (this.voteMap.size >= PlayerManager.getNumberOfPlayers()) {
       const ayes = [...this.voteMap.entries()]
-                      .filter(entry => entry[1] === true)
-                      .map(entry => entry[0]);
+        .filter(entry => entry[1] === true)
+        .map(entry => entry[0]);
       const nays = [...this.voteMap.entries()]
-                      .filter(entry => entry[1] === false)
-                      .map(entry => entry[0]);
+        .filter(entry => entry[1] === false)
+        .map(entry => entry[0]);
 
       EventManager.addEvent(Event.ELECTION_RESULT, Target.ALL, {
         ayes,

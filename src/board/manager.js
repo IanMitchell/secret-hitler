@@ -111,7 +111,10 @@ export default class {
   }
 
   isChancellorVetoEnabled() {
-    return !this.vetoRequested && this.policyCount.fascist >= Board.VETO_REQUEST_ENABLED;
+    return (
+      !this.vetoRequested &&
+      this.policyCount.fascist >= Board.VETO_REQUEST_ENABLED
+    );
   }
 
   isHitlerChancellorWinEnabled() {

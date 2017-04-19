@@ -15,7 +15,9 @@ describe('Game', () => {
   beforeEach(() => {
     managerList.forEach(manager => {
       managerStubs.set(manager, new Map());
-      Object.getOwnPropertyNames(Object.getPrototypeOf(manager)).forEach(key => {
+      Object.getOwnPropertyNames(
+        Object.getPrototypeOf(manager),
+      ).forEach(key => {
         managerStubs.get(manager).set(key, manager[key]);
       });
     });
@@ -23,7 +25,9 @@ describe('Game', () => {
 
   afterEach(() => {
     managerList.forEach(manager => {
-      Object.getOwnPropertyNames(Object.getPrototypeOf(manager)).forEach(key => {
+      Object.getOwnPropertyNames(
+        Object.getPrototypeOf(manager),
+      ).forEach(key => {
         // eslint-disable-next-line no-param-reassign
         manager[key] = managerStubs.get(manager).get(key);
       });
@@ -136,13 +140,15 @@ describe('Game', () => {
       PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.HITLER_KILLED,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.HITLER_KILLED,
+          },
         },
-      }]);
+      ]);
     });
 
     test('should trigger when Hitler is Chancellor', () => {
@@ -150,13 +156,15 @@ describe('Game', () => {
       PlayerManager.isHitlerChancellor = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.HITLER_ELECTED,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.HITLER_ELECTED,
+          },
         },
-      }]);
+      ]);
     });
 
     test('should trigger when enough Liberal policies pass', () => {
@@ -165,13 +173,15 @@ describe('Game', () => {
       BoardManager.liberalPolicyWin = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.LIBERAL_POLICY,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.LIBERAL_POLICY,
+          },
         },
-      }]);
+      ]);
     });
 
     test('should trigger when enough Fascist policies pass', () => {
@@ -181,13 +191,15 @@ describe('Game', () => {
       BoardManager.fascistPolicyWin = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.FASCIST_POLICY,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.FASCIST_POLICY,
+          },
         },
-      }]);
+      ]);
     });
 
     test('should not otherwise trigger', () => {

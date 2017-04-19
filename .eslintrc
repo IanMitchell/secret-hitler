@@ -12,6 +12,8 @@
     "arrow-parens": 0,
     "class-methods-use-this": 0,
     "no-mixed-operators": 0,
-    "no-plusplus": 0
+    "no-plusplus": 0,
+    "wrap-iife": 0,
+    "space-before-function-paren": 0
   }
 }
