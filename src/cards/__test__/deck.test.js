@@ -17,6 +17,7 @@ describe('Deck', () => {
     const deck = new Deck();
     const sortedDeck = new Deck();
 
+    // eslint-disable-next-line no-unused-vars
     sortedDeck.cards.sort((a, b) => {
       if (a.type === CardType.LIBERAL) {
         return -1;

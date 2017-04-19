@@ -24,6 +24,7 @@ describe('Game', () => {
   afterEach(() => {
     managerList.forEach(manager => {
       Object.getOwnPropertyNames(Object.getPrototypeOf(manager)).forEach(key => {
+        // eslint-disable-next-line no-param-reassign
         manager[key] = managerStubs.get(manager).get(key);
       });
     });
