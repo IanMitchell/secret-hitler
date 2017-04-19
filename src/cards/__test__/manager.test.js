@@ -95,21 +95,24 @@ describe('CardManager', () => {
   });
 
   test('should remove card from circulation', () => {
-    const liberal = (card) => card.type === CardType.LIBERAL;
-    const fascist = (card) => card.type === CardType.FASCIST;
+    const liberal = card => card.type === CardType.LIBERAL;
+    const fascist = card => card.type === CardType.FASCIST;
 
     const liberalCards = CardManager.deck.cards.filter(liberal);
     const fascistCards = CardManager.deck.cards.filter(fascist);
     const [card] = CardManager.drawHand();
     CardManager.play(card);
 
-    const cardCount = CardManager.deck.cards.length + CardManager.discardPile.cards.length;
+    const cardCount =
+      CardManager.deck.cards.length + CardManager.discardPile.cards.length;
     expect(cardCount).toBe(liberalCards.length + fascistCards.length - 1);
 
-    const newLiberalTotal = CardManager.deck.cards.filter(liberal).length +
-                            CardManager.discardPile.cards.filter(liberal).length;
-    const newFascistTotal = CardManager.deck.cards.filter(fascist).length +
-                            CardManager.discardPile.cards.filter(fascist).length;
+    const newLiberalTotal =
+      CardManager.deck.cards.filter(liberal).length +
+      CardManager.discardPile.cards.filter(liberal).length;
+    const newFascistTotal =
+      CardManager.deck.cards.filter(fascist).length +
+      CardManager.discardPile.cards.filter(fascist).length;
 
     if (card.type === CardType.LIBERAL) {
       expect(newLiberalTotal).toBe(liberalCards.length - 1);

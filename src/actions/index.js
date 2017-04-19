@@ -1,7 +1,8 @@
 import Manager from './manager';
 
-const ActionManager = (function () {
+// eslint-disable-next-line func-names
+const ActionManager = (function() {
   return new Manager();
-}());
+})();
 
 export default ActionManager;

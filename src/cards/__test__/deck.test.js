@@ -6,8 +6,12 @@ describe('Deck', () => {
     const deck = new Deck();
     expect(deck.cardsLeft()).toBe(17);
 
-    const liberalCards = deck.cards.filter(card => card.type === CardType.LIBERAL);
-    const fascistCards = deck.cards.filter(card => card.type === CardType.FASCIST);
+    const liberalCards = deck.cards.filter(
+      card => card.type === CardType.LIBERAL,
+    );
+    const fascistCards = deck.cards.filter(
+      card => card.type === CardType.FASCIST,
+    );
 
     expect(liberalCards.length).toBe(DeckSize.LIBERAL_CARDS);
     expect(fascistCards.length).toBe(DeckSize.FASCIST_CARDS);
@@ -17,6 +21,7 @@ describe('Deck', () => {
     const deck = new Deck();
     const sortedDeck = new Deck();
 
+    // eslint-disable-next-line no-unused-vars
     sortedDeck.cards.sort((a, b) => {
       if (a.type === CardType.LIBERAL) {
         return -1;

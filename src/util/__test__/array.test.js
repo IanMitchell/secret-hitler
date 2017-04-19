@@ -12,7 +12,7 @@ describe('Array', () => {
     const MAX = 10;
     const MIN = -10;
 
-    const validateArray = (arr) => {
+    const validateArray = arr => {
       if ([...new Set(arr)].length !== arr.length) {
         return false;
       }

@@ -28,7 +28,6 @@ export default class {
     EventManager.addEvent(Event.EXECUTIVE_ACTION, Target.PRESIDENT, payload);
   }
 
-
   peek() {
     const hand = CardManager.peekCards(Hand.HAND_SIZE);
     EventManager.addEvent(Event.PEEK, Target.PRESIDENT, { hand });

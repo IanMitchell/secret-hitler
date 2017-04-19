@@ -1,11 +1,64 @@
 import Game from '../../';
+import { playerNames } from './player-names';
+import BoardManager from '../board';
+import CardManager from '../cards';
 import EventManager from '../events';
 import PlayerManager from '../players';
 import { Event, Target } from '../constants';
 
+const managerStubs = new Map();
+const managerList = [BoardManager, CardManager, EventManager, PlayerManager];
+
 describe('Game', () => {
+  // We use singletons, which means things break when I stub them out for tests.
+  // Jest appears to not reset things; we do it manually here.
+  beforeEach(() => {
+    managerList.forEach(manager => {
+      managerStubs.set(manager, new Map());
+      Object.getOwnPropertyNames(
+        Object.getPrototypeOf(manager),
+      ).forEach(key => {
+        managerStubs.get(manager).set(key, manager[key]);
+      });
+    });
+  });
+
+  afterEach(() => {
+    managerList.forEach(manager => {
+      Object.getOwnPropertyNames(
+        Object.getPrototypeOf(manager),
+      ).forEach(key => {
+        // eslint-disable-next-line no-param-reassign
+        manager[key] = managerStubs.get(manager).get(key);
+      });
+    });
+  });
+
   describe('newGame', () => {
-    test('should initialize managers');
+    test('should initialize managers', () => {
+      const initMock = jest.fn();
+      BoardManager.initialize = initMock;
+      CardManager.initialize = initMock;
+      EventManager.initialize = initMock;
+      PlayerManager.initialize = initMock;
+
+      Game.newTurn = jest.fn();
+      EventManager.addEvent = jest.fn();
+      EventManager.getNewEvents = jest.fn().mockReturnValueOnce([]);
+      PlayerManager.addPlayer = jest.fn();
+      PlayerManager.assignRoles = jest.fn();
+      PlayerManager.assignTurnOrder = jest.fn();
+      PlayerManager.getNumberOfPlayers = jest.fn();
+      PlayerManager.getLiberals = jest.fn().mockReturnValueOnce([]);
+      PlayerManager.getFascists = jest.fn().mockReturnValueOnce([]);
+      PlayerManager.getHitler = jest.fn().mockReturnValueOnce({});
+      PlayerManager.players = [];
+
+      Game.newGame(playerNames);
+
+      expect(initMock).toHaveBeenCalledTimes(4);
+    });
+
     test('should reset GameState');
     test('should reset votes');
     test('should assign roles');
@@ -84,38 +137,79 @@ describe('Game', () => {
     beforeEach(() => EventManager.initialize());
 
     test('should trigger when Hitler is dead', () => {
-      const mock = jest.fn();
-      mock.mockReturnValueOnce(true);
-      PlayerManager.isHitlerDead = mock;
+      PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.HITLER_KILLED,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.HITLER_KILLED,
+          },
         },
-      }]);
+      ]);
     });
 
     test('should trigger when Hitler is Chancellor', () => {
-      const mock = jest.fn();
-      mock.mockReturnValueOnce(true);
       PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(false);
-      PlayerManager.isHitlerChancellor = mock;
+      PlayerManager.isHitlerChancellor = jest.fn().mockReturnValueOnce(true);
 
       expect(Game.isGameOver()).toBe(true);
-      expect(EventManager.getNewEvents()).toEqual([{
-        type: Event.GAME_OVER,
-        target: Target.ALL,
-        data: {
-          type: Event.HITLER_ELECTED,
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.HITLER_ELECTED,
+          },
         },
-      }]);
+      ]);
     });
 
-    test('should trigger when enough Liberal policies pass');
-    test('should trigger when enough Fascist policies pass');
-    test('should not otherwise trigger');
+    test('should trigger when enough Liberal policies pass', () => {
+      PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(false);
+      PlayerManager.isHitlerChancellor = jest.fn().mockReturnValueOnce(false);
+      BoardManager.liberalPolicyWin = jest.fn().mockReturnValueOnce(true);
+
+      expect(Game.isGameOver()).toBe(true);
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.LIBERAL_POLICY,
+          },
+        },
+      ]);
+    });
+
+    test('should trigger when enough Fascist policies pass', () => {
+      PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(false);
+      PlayerManager.isHitlerChancellor = jest.fn().mockReturnValueOnce(false);
+      BoardManager.liberalPolicyWin = jest.fn().mockReturnValueOnce(false);
+      BoardManager.fascistPolicyWin = jest.fn().mockReturnValueOnce(true);
+
+      expect(Game.isGameOver()).toBe(true);
+      expect(EventManager.getNewEvents()).toEqual([
+        {
+          type: Event.GAME_OVER,
+          target: Target.ALL,
+          data: {
+            type: Event.FASCIST_POLICY,
+          },
+        },
+      ]);
+    });
+
+    test('should not otherwise trigger', () => {
+      PlayerManager.isHitlerDead = jest.fn().mockReturnValueOnce(false);
+      PlayerManager.isHitlerChancellor = jest.fn().mockReturnValueOnce(false);
+      BoardManager.liberalPolicyWin = jest.fn().mockReturnValueOnce(false);
+      BoardManager.fascistPolicyWin = jest.fn().mockReturnValueOnce(false);
+
+      expect(Game.isGameOver()).toBe(false);
+      expect(EventManager.getNewEvents()).toEqual([]);
+    });
   });
 });

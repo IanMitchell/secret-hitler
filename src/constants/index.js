@@ -3,6 +3,7 @@ import Board from './board';
 import CardType from './card-type';
 import DeckSize from './deck-size';
 import Event from './event';
+import GameState from './game-state';
 import Hand from './hand';
 import Player from './player';
 import Role from './role';
@@ -16,6 +17,7 @@ export {
   CardType,
   DeckSize,
   Event,
+  GameState,
   Hand,
   Player,
   Role,

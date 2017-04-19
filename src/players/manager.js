@@ -77,7 +77,9 @@ export default class {
       formerPresident.unsetStatus();
     }
 
-    this.turnOrder = this.turnOrder.filter(player => player.status !== Status.DEAD);
+    this.turnOrder = this.turnOrder.filter(
+      player => player.status !== Status.DEAD,
+    );
 
     const president = this.turnOrder.shift();
     this.turnOrder.push(president);
@@ -100,8 +102,10 @@ export default class {
       return player !== this.lastGovernment.chancellor;
     }
 
-    return player !== this.lastGovernment.president &&
-           player !== this.lastGovernment.chancellor;
+    return (
+      player !== this.lastGovernment.president &&
+      player !== this.lastGovernment.chancellor
+    );
   }
 
   setLastSuccessfulGovernment(override = false) {
@@ -144,19 +148,26 @@ export default class {
   }
 
   getSpecialElectionCandidates() {
-    return this.players.filter(player => player.status !== Status.PRESIDENT &&
-                                         player.status !== Status.DEAD);
+    return this.players.filter(
+      player =>
+        player.status !== Status.PRESIDENT && player.status !== Status.DEAD,
+    );
   }
 
   getInvestigateTargets() {
-    return this.players.filter(player => player.investigated === false &&
-                                         player.status !== Status.PRESIDENT &&
-                                         player.status !== Status.DEAD);
+    return this.players.filter(
+      player =>
+        player.investigated === false &&
+        player.status !== Status.PRESIDENT &&
+        player.status !== Status.DEAD,
+    );
   }
 
   getExecutionTargets() {
-    return this.players.filter(player => player.status !== Status.DEAD &&
-                                         player.status !== Status.PRESIDENT);
+    return this.players.filter(
+      player =>
+        player.status !== Status.DEAD && player.status !== Status.PRESIDENT,
+    );
   }
 
   isHitlerDead() {
